@@ -11,7 +11,7 @@ device = ConnectHandler(device_type="huawei", ip="10.100.20.99", username="admin
 output = device.send_command("dis ip int brief")
 
 # Define Timestamp (data/time)
-timestr = time.strftime("%d%m%Y-%H%M%S")
+timestr = time.strftime("%d.%m.%y-%H.%M.%S")
 
 # Create file with timestamp as file name + device hostname
 f = open(str(timestr + "_ar1220_config.txt"), "w+")

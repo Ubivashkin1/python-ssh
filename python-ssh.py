@@ -1,10 +1,14 @@
 import time
 import configparser
+import argparse
 from netmiko import ConnectHandler
 
 # Script reads the parameters from the config.ini file
 config = configparser.ConfigParser()
 config.read('config.ini')
+
+# Define Timestamp variable (data/time)
+timestr = time.strftime("%d.%m.%y-%H.%M.%S")
 
 # Link to config.ini file using configparser
 username = config['CONFIGURATION']['USERNAME']
@@ -12,19 +16,19 @@ password = config['CONFIGURATION']['PASSWORD']
 ip_address = config['CONFIGURATION']['IP_ADDRESS']
 device_type = config['DEFAULT']['DEVICE_TYPE']
 
+
 # Test to make sure code initialises
 print("Before Config Push")
 
-def connect_ssh():
+
+def dis_ip_int_bri():
 
     # Initialise SSH connection to target device. Device/IP/Username/Password
-    device = ConnectHandler(device_type=str(device_type), ip=str(ip_address), username=str(username), password=str(password))
+    device = ConnectHandler(device_type=str(device_type), ip=str(ip_address), username=str(username),
+                            password=str(password))
 
     # Send desired command matching CLI of type/model of device
     output = device.send_command("dis ip int brief")
-
-    # Define Timestamp variable (data/time)
-    timestr = time.strftime("%d.%m.%y-%H.%M.%S")
 
     # Create file with timestamp as file name + device hostname
     with open(str(timestr + "_ar1220_config.txt"), "w+") as confile:
@@ -35,4 +39,64 @@ def connect_ssh():
     # Disconnect from ssh session to prevent hanging sessions
     device.disconnect()
 
-connect_ssh()
+
+#dis_ip_int_bri()
+
+
+def runn():
+
+    option_long = "--command"
+    option_short = "-c"
+
+    # initiate the parser
+    parser = argparse.ArgumentParser()
+
+    # add long and short argument
+    parser.add_argument(str(option_long), str(option_short), help="specify desired command")
+
+    # read arguments from the command line
+    args = parser.parse_args()
+
+    a = "dis_ip_int_bri"
+
+    if args.command:
+        if args.command == a:
+            dis_ip_int_bri()
+            print("Iworked")
+
+
+runn()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#def connect_ssh():
+#
+#    # Initialise SSH connection to target device. Device/IP/Username/Password
+#    device = ConnectHandler(device_type=str(device_type), ip=str(ip_address), username=str(username), password=str(password))
+#
+#    # Send desired command matching CLI of type/model of device
+#    output = device.send_command("dis ip int brief")
+#
+#
+#
+#    # Create file with timestamp as file name + device hostname
+#    with open(str(timestr + "_ar1220_config.txt"), "w+") as confile:
+#
+#        # Write command output contents to the newly created file in above line
+#        confile.write(output)
+#
+#    # Disconnect from ssh session to prevent hanging sessions
+#    device.disconnect()
+#
+#connect_ssh()

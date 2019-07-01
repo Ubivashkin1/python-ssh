@@ -1,24 +1,38 @@
 import time
+import configparser
 from netmiko import ConnectHandler
+
+# Script reads the parameters from the config.ini file
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+# Link to config.ini file using configparser
+username = config['CONFIGURATION']['USERNAME']
+password = config['CONFIGURATION']['PASSWORD']
+ip_address = config['CONFIGURATION']['IP_ADDRESS']
+device_type = config['DEFAULT']['DEVICE_TYPE']
 
 # Test to make sure code initialises
 print("Before Config Push")
 
-# Initialise SSH connection to target device. Device/IP/Username/Password
-device = ConnectHandler(device_type="huawei", ip="10.100.20.99", username="admin", password="Password1")
+def connect_ssh():
 
-# Send desired command matching CLI of type/model of device
-output = device.send_command("dis ip int brief")
+    # Initialise SSH connection to target device. Device/IP/Username/Password
+    device = ConnectHandler(device_type=str(device_type), ip=str(ip_address), username=str(username), password=str(password))
 
-# Define Timestamp variable (data/time)
-timestr = time.strftime("%d.%m.%y-%H.%M.%S")
+    # Send desired command matching CLI of type/model of device
+    output = device.send_command("dis ip int brief")
 
-# Create file with timestamp as file name + device hostname
-with open(str(timestr + "_ar1220_config.txt"), "w+") as confile:
+    # Define Timestamp variable (data/time)
+    timestr = time.strftime("%d.%m.%y-%H.%M.%S")
 
-    # Write command output contents to the newly created file in above line
-    confile.write(output)
+    # Create file with timestamp as file name + device hostname
+    with open(str(timestr + "_ar1220_config.txt"), "w+") as confile:
 
-# Disconnect from ssh session to prevent hanging sessions
-device.disconnect()
+        # Write command output contents to the newly created file in above line
+        confile.write(output)
 
+    # Disconnect from ssh session to prevent hanging sessions
+    device.disconnect()
+
+connect_ssh()

@@ -20,7 +20,7 @@ device_type = config['DEFAULT']['DEVICE_TYPE']
 # Test to make sure code initialises
 print("Before Config Push")
 
-
+# Connects to a device and executes a command (-c COMMAND) during script execution
 def run_command():
 
     # Initialise SSH connection to target device. Device/IP/Username/Password
@@ -40,7 +40,7 @@ def run_command():
     device.disconnect()
 
 
-def runn():
+def argument_parser():
 
     global command_input
     option_long = "--command"
@@ -55,12 +55,14 @@ def runn():
     # read arguments from the command line
     args = parser.parse_args()
 
-    command_input = "dis_ip_int_bri"
+    command_input = args.command
 
+    # checks if any arguments during script execution
     if args.command:
-        if args.command == command_input:
-            run_command()
-            print("Iworked")
+
+        # executes run_command function if -c was used in combination with a command like "display current configuration"
+        run_command()
+        print("Iworked")
 
 
-runn()
+argument_parser()

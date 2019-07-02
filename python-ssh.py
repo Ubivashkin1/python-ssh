@@ -21,14 +21,14 @@ device_type = config['DEFAULT']['DEVICE_TYPE']
 print("Before Config Push")
 
 
-def dis_ip_int_bri():
+def run_command():
 
     # Initialise SSH connection to target device. Device/IP/Username/Password
     device = ConnectHandler(device_type=str(device_type), ip=str(ip_address), username=str(username),
                             password=str(password))
 
     # Send desired command matching CLI of type/model of device
-    output = device.send_command("dis ip int brief")
+    output = device.send_command(str(command_input))
 
     # Create file with timestamp as file name + device hostname
     with open(str(timestr + "_ar1220_config.txt"), "w+") as confile:
@@ -42,6 +42,7 @@ def dis_ip_int_bri():
 
 def runn():
 
+    global command_input
     option_long = "--command"
     option_short = "-c"
 
@@ -54,11 +55,11 @@ def runn():
     # read arguments from the command line
     args = parser.parse_args()
 
-    a = "dis_ip_int_bri"
+    command_input = "dis_ip_int_bri"
 
     if args.command:
-        if args.command == a:
-            dis_ip_int_bri()
+        if args.command == command_input:
+            run_command()
             print("Iworked")
 
 

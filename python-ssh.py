@@ -4,14 +4,14 @@ import argparse
 import re
 from netmiko import ConnectHandler
 
-# Script reads the parameters from the config.ini file
+# Script reads the parameters from the config_test.ini file
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('config_test.ini')
 
 # Define Timestamp variable (data/time)
 timestring = time.strftime("%d.%m.%y-%H.%M.%S")
 
-# Link to config.ini file using configparser
+# Link to config_test.ini file using configparser
 username = config['CONFIGURATION']['USERNAME']
 password = config['CONFIGURATION']['PASSWORD']
 ip_address = config['CONFIGURATION']['IP_ADDRESS']
@@ -46,7 +46,7 @@ def run_command():
             # Write command output contents to the newly created file in above line
             confile.write(output)
 
-    # if not huawei, will utilise the hostname variable from config.ini
+    # if not huawei, will utilise the hostname variable from config_test.ini
     else:
         with open(str(timestring + "-" + hostname), "w+") as confile:
 

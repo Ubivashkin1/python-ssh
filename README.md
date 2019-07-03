@@ -1,6 +1,6 @@
-# Python config retrieval tool
+# Python CLI command execution script
 
-A python-based ssh script for automation and management of network devices
+A python-based ssh script for connecting and executing CLI commands on network devices using Netmiko library and saving a copy of command output into a txt file in project directory.
 
 ### Usage
 

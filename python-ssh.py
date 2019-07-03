@@ -1,6 +1,7 @@
 import time
 import configparser
 import argparse
+import re
 from netmiko import ConnectHandler
 
 # Script reads the parameters from the config.ini file
@@ -15,6 +16,7 @@ username = config['CONFIGURATION']['USERNAME']
 password = config['CONFIGURATION']['PASSWORD']
 ip_address = config['CONFIGURATION']['IP_ADDRESS']
 device_type = config['DEFAULT']['DEVICE_TYPE']
+hostname = config['CONFIGURATION']['HOSTNAME']
 
 
 # Test to make sure code initialises
@@ -31,11 +33,25 @@ def run_command():
     # Send desired command matching CLI of type/model of device
     output = device.send_command(str(command_input))
 
-    # Create file with timestamp as file name + device hostname
-    with open(str(timestring + "_ar1220_config.txt"), "w+") as confile:
+    # run an additional command to acquire sysname from a huawei device
+    if device_type == "huawei":
+        sysname_string = device.send_command("dis cur | include sysname")
 
-        # Write command output contents to the newly created file in above line
-        confile.write(output)
+        # remove "sysname " from the command output
+        sysname = re.sub(r'sysname ', '', sysname_string)
+
+    # Create file with timestamp as file name + device hostname
+        with open(str(timestring + "-" + sysname), "w+") as confile:
+
+            # Write command output contents to the newly created file in above line
+            confile.write(output)
+
+    # if not huawei, will utilise the hostname variable from config.ini
+    else:
+        with open(str(timestring + "-" + hostname), "w+") as confile:
+
+            # Write command output contents to the newly created file in above line
+            confile.write(output)
 
     # Disconnect from ssh session to prevent hanging sessions
     device.disconnect()
@@ -44,8 +60,6 @@ def run_command():
 def argument_parser():
 
     global command_input
-    option_long = "--command"
-    option_short = "-c"
 
     # initiate the parser
     parser = argparse.ArgumentParser()
@@ -64,7 +78,7 @@ def argument_parser():
         # executes run_command function if -c was used in combination with a command
         # like "display current configuration"
         run_command()
-        print("Iworked")
+        print("I worked!!!")
 
 
 argument_parser()

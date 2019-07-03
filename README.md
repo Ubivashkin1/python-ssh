@@ -24,6 +24,11 @@ $ python3 python-ssh.py -c "dis ip int bri"
 
 $ python3 python-ssh.py -c-command "dis cur"
 ```
+### Suggested scenario
+
+This script can be used to backup router config on a daily basis via a cron job in Linux or task scheduler in Windows
+
+Ability to specify multiple devices and multi-threading functionality coming in the future!!
 
 ### Notes
 - Please note that the command syntax is specific to the device:

@@ -4,12 +4,14 @@ A python-based ssh script for automation and management of network devices
 
 ### Usage
 
+Edit the config.ini file in project directory with IP, device type, username, password and hostname.
+
 ```
-usage: python-ssh.py [-h] [--command COMMAND]
+usage: python-ssh.py [-h] [-c COMMAND]
 
 optional arguments:
   -h, --help            show this help message and exit
-  --command COMMAND, -c COMMAND
+  -c COMMAND, --command COMMAND
                         specify desired command
 ```                 
                       

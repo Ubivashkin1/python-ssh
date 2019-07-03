@@ -22,7 +22,7 @@ $ python3 python-ssh.py -c "dis cur"
 
 $ python3 python-ssh.py -c "dis ip int bri"
 
-$ python3 python-ssh.py -c-command "dis cur"
+$ python3 python-ssh.py --command "dis cur"
 ```
 ### Suggested scenario
 

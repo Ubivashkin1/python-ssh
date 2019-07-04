@@ -6,7 +6,7 @@ from netmiko import ConnectHandler
 
 # Script reads the parameters from the config_test.ini file
 config = configparser.ConfigParser()
-config.read('config_test.ini')
+config.read('config.ini')
 
 # Define Timestamp variable (data/time)
 timestring = time.strftime("%d.%m.%y-%H.%M.%S")

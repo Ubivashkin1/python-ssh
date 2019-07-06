@@ -53,8 +53,7 @@ def run_command():
         sysname_string = device.send_command("dis cur | include sysname")
 
         # remove "sysname " from the command output
-        sysname = re.sub(r'sysname ', '', sysname_string)
-        file_name = sysname
+        file_name = re.sub(r'sysname ', '', sysname_string)
 
     # Create file with timestamp as file name + device hostname
     with open(str(timestring + "-" + file_name), "w+") as confile:

@@ -6,7 +6,7 @@ from netmiko import ConnectHandler
 
 # Script reads the parameters from the config_test.ini file
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('config_test.ini')
 
 # Define Timestamp variable (data/time)
 timestring = time.strftime("%d.%m.%y-%H.%M.%S")
@@ -54,9 +54,12 @@ def run_command():
 
         # remove "sysname " from the command output
         file_name = re.sub(r'sysname ', '', sysname_string)
+        print(file_name)
 
     # Create file with timestamp as file name + device hostname
-    with open(str(timestring + "-" + file_name), "w+") as confile:
+    print(timestring)
+    #with open(str(timestring + "-" + file_name), "w+") as confile:
+    with open("sy2-edge01.txt", "w+") as confile:
 
         # Write command output contents to the newly created file in above line
         confile.write(output)
@@ -71,5 +74,3 @@ if args.command:
     # like "display current configuration"
     run_command()
     print("Finished executing the command!")
-
-
